@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.5.7)  9 JUN 2024 15:39
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.5.7)  9 JUN 2024 18:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -303,7 +303,22 @@ LaTeX Font Info:    Trying to load font information for U+lasy on input line 16
 (/usr/local/texlive/2023/texmf-dist/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )) [3] [4]
-(./acknowledgements.tex) [5
+(./acknowledgements.tex
+Underfull \hbox (badness 10000) in paragraph at lines 1--4
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 5--8
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 9--14
+
+ []
+
+) [5
 
 ] (./abstract.tex) [6
 
@@ -481,7 +496,7 @@ sfonts/cm/cmmi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/courie
 r/ucrr8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmb8a.p
 fb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/l
 ocal/texlive/2023/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on sampleThesis.pdf (17 pages, 75144 bytes).
+Output written on sampleThesis.pdf (17 pages, 76612 bytes).
 PDF statistics:
  88 PDF objects out of 1000 (max. 8388607)
  56 compressed objects within 1 object stream
