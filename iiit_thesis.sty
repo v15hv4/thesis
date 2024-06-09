@@ -1,17 +1,3 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%
-%%% File: iiit_thesis.sty, version 1.2, Jun 2023
-%%% ============================================
-%%% Edits made by Ayush Kumar Dwivedi as per the latest IIITH thesis style
-%%%
-%%% CHANGES
-%%% =======
-%%% 1. Made it compatible with pdfLaTex compiler 2022 Tex Live version.
-%%% 2. Resolved the issue of incorrectly appearing Table of Contents
-%%% 3. Added use of Abbreviation package to automatically generate a list of symbols, list of abbreviations, etc.
-%%% 4. Resolved the use of conflicting packages 
-%%% 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%
 %%% File: iiit_thesis.sty, version 1.1, Jun 2005
@@ -331,6 +317,7 @@
 %%%
 \newcommand{\@universityname}{International Institute of Information Technology}
 \newcommand{\@publicationno}{Publication No.\ \line(1,0){40} \\[10mm]}
+\newcommand{\thesisauthor}{Ima Student}
 \newcommand{\thesistitlepageauthor}{\thesisauthor}
 \newcommand{\thesismonth}{Dec}
 \newcommand{\thesisyear}{2005}
@@ -390,15 +377,13 @@
 %%% Set up other commands.
 %%%
 \newcommand{\@defaultbaselinestretch}{1.5}
-% \newcommand{\@base}[1]{\renewcommand{\baselinestretch}{#1}}
-% \newcommand{\singlespace}{\renewcommand{\@defaultbaselinestretch}{1.1}}
-% \newcommand{\oneandhalfspace}{\renewcommand{\@defaultbaselinestretch}{1.5}}
-% \newcommand{\doublespace}{\renewcommand{\@defaultbaselinestretch}{1.7}}
-% \newcommand{\@thesistitle}{\textbf{\thesistitletypesize \thesistitle}}
-
+\newcommand{\@base}[1]{\renewcommand{\baselinestretch}{#1}}
+\newcommand{\singlespace}{\renewcommand{\@defaultbaselinestretch}{1.1}}
+\newcommand{\oneandhalfspace}{\renewcommand{\@defaultbaselinestretch}{1.5}}
+\newcommand{\doublespace}{\renewcommand{\@defaultbaselinestretch}{1.7}}
+\newcommand{\@thesistitle}{\textbf{\thesistitletypesize \thesistitle}}
 %\newcommand{\@thesistitle}{\textbf{\thesistitletypesize  A Framework
 %for Designing a Low-Loss, Low-Delay Internet}}
-
 \newcommand{\@thesisapprovedby}%
     {\textbf{\thesisapprovedbytypesize \thesisapprovedby}}
 \newcommand{\@thesistype}{\textbf{\thesistypetypesize \thesistype}}
@@ -442,7 +427,7 @@
 %%% and not have a colon like in the original report style.
 %%%
 \long\def\@makecaption#1#2{%
-  \vskip\abovecaptionskip
+  \vskip\abovecaptionskip 
   \sbox\@tempboxa{\textbf{#1} #2}%
   \ifdim \wd\@tempboxa >\hsize
     \textbf{#1} #2\par
@@ -465,7 +450,7 @@
 \newcommand{\@textpagestyle}{plain}
 \newcommand{\@preamblepagestyle}{plain}
 \pagenumbering{\@preamblepagenumbering}
-% \@base{\@defaultbaselinestretch}
+\@base{\@defaultbaselinestretch}
 
 \newcommand{\@chaptertype}{\chaptername}
 \newcommand{\@appendix}{0}
@@ -716,14 +701,13 @@
 %%% 
 %%% Needs to be fixed to handle appendix subsections correctly
 %%%
-
-% \def\addcontentsline#1#2#3{\if@filesw \begingroup
-% \let\label\@gobble \let\index\@gobble \let\glossary\@gobble
-% \let\protect\@unexpandable@protect
-% \@temptokena{\thepage}%
-% \edef\@tempa{\write \@auxout{\string\@writefile{#1}{\protect
-%      \contentsline{#2}{#3}{\the\@temptokena}}}}\@tempa
-%    \if@nobreak \ifvmode\nobreak\fi\fi\endgroup\fi}
+\def\addcontentsline#1#2#3{\if@filesw \begingroup
+\let\label\@gobble \let\index\@gobble \let\glossary\@gobble
+\let\protect\@unexpandable@protect
+\@temptokena{\thepage}%
+\edef\@tempa{\write \@auxout{\string\@writefile{#1}{\protect
+     \contentsline{#2}{#3}{\the\@temptokena}}}}\@tempa
+   \if@nobreak \ifvmode\nobreak\fi\fi\endgroup\fi}
 
 
 %%%
@@ -930,51 +914,51 @@ jeudi\or vendredi\or samedi\fi}
 %%% Reset baselinestretch within footnotes and floats. Originally stolen
 %%% from Stanford thesis style.
 %%%
-% \def\@xfloat#1[#2]{\ifhmode \@bsphack\@floatpenalty -\@Mii\else
-%    \@floatpenalty-\@Miii\fi\def\@captype{#1}\ifinner
-%       \@parmoderr\@floatpenalty\z@
-%     \else\@next\@currbox\@freelist{\@tempcnta\csname ftype@#1\endcsname
-%        \multiply\@tempcnta\@xxxii\advance\@tempcnta\sixt@@n
-%        \@tfor \@tempa :=#2\do
-%                         {\if\@tempa h\advance\@tempcnta \@ne\fi
-%                          \if\@tempa t\advance\@tempcnta \tw@\fi
-%                          \if\@tempa b\advance\@tempcnta 4\relax\fi
-%                          \if\@tempa p\advance\@tempcnta 8\relax\fi
-%          }\global\count\@currbox\@tempcnta}\@fltovf\fi
-%     \global\setbox\@currbox\vbox\bgroup 
-%     \def\baselinestretch{1}
-%     \ifx\undefined\selectfont
-%     \small\normalsize
-%     \else
-%     \@newbaseline
-%     \fi
-%     \boxmaxdepth\z@
-%     \hsize\columnwidth \@parboxrestore}
-% \long\def\@footnotetext#1{\insert\footins{\def\baselinestretch{1}\footnotesize
-%     \interlinepenalty\interfootnotelinepenalty 
-%     \splittopskip\footnotesep
-%     \splitmaxdepth \dp\strutbox \floatingpenalty \@MM
-%     \hsize\columnwidth \@parboxrestore
-%    \edef\@currentlabel{\csname p@footnote\endcsname\@thefnmark}\@makefntext
-%     {\rule{\z@}{\footnotesep}\ignorespaces
-%       #1\strut}}}
+\def\@xfloat#1[#2]{\ifhmode \@bsphack\@floatpenalty -\@Mii\else
+   \@floatpenalty-\@Miii\fi\def\@captype{#1}\ifinner
+      \@parmoderr\@floatpenalty\z@
+    \else\@next\@currbox\@freelist{\@tempcnta\csname ftype@#1\endcsname
+       \multiply\@tempcnta\@xxxii\advance\@tempcnta\sixt@@n
+       \@tfor \@tempa :=#2\do
+                        {\if\@tempa h\advance\@tempcnta \@ne\fi
+                         \if\@tempa t\advance\@tempcnta \tw@\fi
+                         \if\@tempa b\advance\@tempcnta 4\relax\fi
+                         \if\@tempa p\advance\@tempcnta 8\relax\fi
+         }\global\count\@currbox\@tempcnta}\@fltovf\fi
+    \global\setbox\@currbox\vbox\bgroup 
+    \def\baselinestretch{1}
+    \ifx\undefined\selectfont
+    \small\normalsize
+    \else
+    \@newbaseline
+    \fi
+    \boxmaxdepth\z@
+    \hsize\columnwidth \@parboxrestore}
+\long\def\@footnotetext#1{\insert\footins{\def\baselinestretch{1}\footnotesize
+    \interlinepenalty\interfootnotelinepenalty 
+    \splittopskip\footnotesep
+    \splitmaxdepth \dp\strutbox \floatingpenalty \@MM
+    \hsize\columnwidth \@parboxrestore
+   \edef\@currentlabel{\csname p@footnote\endcsname\@thefnmark}\@makefntext
+    {\rule{\z@}{\footnotesep}\ignorespaces
+      #1\strut}}}
 %%%
 %%% Stolen from MIT.
 %%%
-% \def\spacing#1{\par%
-%  \begingroup
-%  \def\baselinestretch{#1}
-%  \ifx\undefined\selectfont
-%  \ifx\@currsize\normalsize\@normalsize\else\@currsize\fi
-%  \else
-%  \@newbaseline
-%  \fi}
-% \def\endspacing{\par
-%  \vskip \parskip
-%  \vskip \baselineskip
-%  \endgroup
-%  \vskip -\parskip
-%  \vskip -\baselineskip}
+\def\spacing#1{\par%
+ \begingroup
+ \def\baselinestretch{#1}
+ \ifx\undefined\selectfont
+ \ifx\@currsize\normalsize\@normalsize\else\@currsize\fi
+ \else
+ \@newbaseline
+ \fi}
+\def\endspacing{\par
+ \vskip \parskip
+ \vskip \baselineskip
+ \endgroup
+ \vskip -\parskip
+ \vskip -\baselineskip}
 
 %%%
 %%% The following commands are for LaTeX compatibility mode.
