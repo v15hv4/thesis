@@ -303,8 +303,9 @@ INPUT ./figures/iiit.eps
 INPUT figures/iiit.eps
 INPUT ./figures/iiit.eps
 INPUT ./figures/iiit.eps
-INPUT ./figures/iiit.eps
 INPUT ./figures/iiit-eps-converted-to.pdf
+INPUT ./figures/iiit-eps-converted-to.pdf
+INPUT ./figures/iiit.eps
 INPUT ./figures/iiit-eps-converted-to.pdf
 INPUT ./figures/iiit-eps-converted-to.pdf
 OUTPUT sampleThesis.pdf
@@ -329,6 +330,7 @@ INPUT ./certificate.tex
 INPUT certificate.tex
 INPUT ./certificate.tex
 INPUT certificate.tex
+INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmr8.tfm
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmr6.tfm
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmmi10.tfm
@@ -365,6 +367,8 @@ INPUT /usr/local/texlive/2023/texmf-dist/fonts/vf/adobe/times/ptmr7t.vf
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/vf/adobe/times/ptmr7t.vf
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
+INPUT /usr/local/texlive/2023/texmf-dist/fonts/vf/adobe/times/ptmb7t.vf
+INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmb8r.tfm
 INPUT ./acknowledgements.tex
 INPUT acknowledgements.tex
 INPUT ./acknowledgements.tex
@@ -390,7 +394,6 @@ INPUT ./introduction.tex
 INPUT introduction.tex
 INPUT ./introduction.tex
 INPUT introduction.tex
-INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm
 INPUT ./figures/iiit.eps
 INPUT ./figures/iiit.eps
 INPUT figures/iiit.eps
@@ -418,8 +421,6 @@ INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/latex-fonts/lasy5.tfm
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmr7t.tfm
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/vf/adobe/times/ptmri7t.vf
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmri8r.tfm
-INPUT /usr/local/texlive/2023/texmf-dist/fonts/vf/adobe/times/ptmb7t.vf
-INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmb8r.tfm
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/vf/adobe/times/ptmb7t.vf
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmb8r.tfm
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/vf/adobe/times/ptmr7t.vf
