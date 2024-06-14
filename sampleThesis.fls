@@ -453,6 +453,8 @@ INPUT ./sampleThesis.bbl
 INPUT sampleThesis.bbl
 INPUT ./sampleThesis.bbl
 INPUT sampleThesis.bbl
+INPUT /usr/local/texlive/2023/texmf-dist/fonts/vf/adobe/times/ptmri7t.vf
+INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmri8r.tfm
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/vf/adobe/times/ptmr7t.vf
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
 INPUT sampleThesis.aux

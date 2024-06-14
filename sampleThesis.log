@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.5.7)  9 JUN 2024 18:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.5.7)  14 JUN 2024 18:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -484,19 +484,19 @@ Underfull \hbox (badness 10000) in paragraph at lines 44--45
 ]
 (./sampleThesis.aux) ) 
 Here is how much of TeX's memory you used:
- 3716 strings out of 476047
- 54754 string characters out of 5790254
+ 3717 strings out of 476047
+ 54761 string characters out of 5790254
  1856248 words of memory out of 5000000
  24041 multiletter control sequences out of 15000+600000
- 540373 words of font info for 92 fonts, out of 8000000 for 9000
+ 541509 words of font info for 93 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 72i,10n,76p,276b,267s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 72i,10n,76p,699b,267s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/am
 sfonts/cm/cmmi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/courie
 r/ucrr8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmb8a.p
 fb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/l
 ocal/texlive/2023/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on sampleThesis.pdf (17 pages, 76612 bytes).
+Output written on sampleThesis.pdf (17 pages, 80421 bytes).
 PDF statistics:
  88 PDF objects out of 1000 (max. 8388607)
  56 compressed objects within 1 object stream
