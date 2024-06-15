@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.5.7)  14 JUN 2024 20:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.5.7)  15 JUN 2024 20:02
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -322,17 +322,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 9--14
 
 ] (./abstract.tex) [6
 
-] (./sampleThesis.toc
-Overfull \hbox (5.47496pt too wide) detected at line 6
-\OT1/ptm/m/n/10.95 1.3.2 
- []
-
-
-Overfull \hbox (5.47496pt too wide) detected at line 8
-\OT1/ptm/m/n/10.95 1.3.4 
- []
-
-)
+] (./sampleThesis.toc)
 Runaway argument?
 ! File ended while scanning use of \contentsline.
 <inserted text> 
@@ -364,146 +354,86 @@ you'd better type `E' or `X' now and fix your file.
 ]
 {\it Chapter} 1.
 (./introduction.tex
-Underfull \hbox (badness 10000) in paragraph at lines 6--7
+Underfull \hbox (badness 10000) in paragraph at lines 4--11
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 8--9
-
- []
-
-! Too many }'s.
-\color@endbox ->\color@endgroup \egroup 
-                                        
-l.23 \end{table}
-                
-You've closed more groups than you opened.
-Such booboos are generally harmless, so keep going.
-
-
-! LaTeX Error: \begin{document} ended by \end{table}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.23 \end{table}
-                
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-! Extra \endgroup.
-<recently read> \endgroup 
-                          
-l.23 \end{table}
-                
-Things are pretty mixed up, but I think the worst is over.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 25--26
-
- []
-
-Package epstopdf Info: Source file: <figures/iiit.eps>
-(epstopdf)                    date: 2024-06-09 14:43:32
-(epstopdf)                    size: 39420 bytes
-(epstopdf)             Output file: <figures/iiit-eps-converted-to.pdf>
-(epstopdf)                    date: 2024-06-09 14:46:43
-(epstopdf)                    size: 6071 bytes
-(epstopdf)             Command: <repstopdf --outfile=figures/iiit-eps-converted
--to.pdf figures/iiit.eps>
-(epstopdf)             \includegraphics on input line 29.
-Package epstopdf Info: Output file is already uptodate.
-File: figures/iiit-eps-converted-to.pdf Graphic file (type pdf)
-<use figures/iiit-eps-converted-to.pdf>
-Package pdftex.def Info: figures/iiit-eps-converted-to.pdf  used on input line 
-29.
-(pdftex.def)             Requested size: 90.34297pt x 56.90706pt.
-! Too many }'s.
-\color@endbox ->\color@endgroup \egroup 
-                                        
-l.32 \end{figure}
-                 
-You've closed more groups than you opened.
-Such booboos are generally harmless, so keep going.
-
-
-! LaTeX Error: \begin{document} ended by \end{figure}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.32 \end{figure}
-                 
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-! Extra \endgroup.
-<recently read> \endgroup 
-                          
-l.32 \end{figure}
-                 
-Things are pretty mixed up, but I think the worst is over.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 40--41
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 48--49
+Underfull \hbox (badness 10000) in paragraph at lines 24--35
 
  []
 
 [1
 
-]) [2]
+]
+Underfull \hbox (badness 10000) in paragraph at lines 36--41
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 51--59
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 60--69
+
+ []
+
+
+LaTeX Warning: Citation `chang2022rational' on page 2 undefined on input line 8
+0.
+
+) [2] [3]
 {\it Chapter} 2.
-(./chapter2.tex) [3
+(./chapter2.tex) [4
 
 ]
 {\it Chapter} 3.
-(./chapter3.tex) [4
+(./chapter3.tex) [5
 
 ]
 {\it Chapter} 4.
-(./chapter4.tex) [5
+(./chapter4.tex) [6
 
 ]
 {\it Chapter} 5.
-(./chapter5.tex) [6
+(./chapter5.tex) [7
 
 ]
 {\it Chapter} 6.
-(./conclusion.tex) [7
+(./conclusion.tex) [8
 
-] (./relatedPapers.tex) (./sampleThesis.bbl [8
+] (./relatedPapers.tex) (./sampleThesis.bbl [9
 
-]) [9
+] [10
 
-]
-(./sampleThesis.aux) ) 
+])
+[11] (./sampleThesis.aux)
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
 Here is how much of TeX's memory you used:
- 3724 strings out of 476047
- 54859 string characters out of 5790254
- 1856248 words of memory out of 5000000
- 24045 multiletter control sequences out of 15000+600000
- 541509 words of font info for 93 fonts, out of 8000000 for 9000
+ 3720 strings out of 476047
+ 55041 string characters out of 5790254
+ 1859248 words of memory out of 5000000
+ 24052 multiletter control sequences out of 15000+600000
+ 534410 words of font info for 76 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  72i,10n,76p,699b,267s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2023/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmmi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/courie
-r/ucrr8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmb8a.p
-fb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/l
-ocal/texlive/2023/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on sampleThesis.pdf (18 pages, 81037 bytes).
+</usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
+></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/l
+ocal/texlive/2023/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texli
+ve/2023/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2023/te
+xmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on sampleThesis.pdf (20 pages, 87677 bytes).
 PDF statistics:
- 91 PDF objects out of 1000 (max. 8388607)
- 58 compressed objects within 1 object stream
+ 98 PDF objects out of 1000 (max. 8388607)
+ 63 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
