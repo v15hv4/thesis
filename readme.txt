@@ -1,7 +1,1 @@
-
-To make a sample thesis, copy the contents of this directory
-somewhere, and type the following commands
-
- latex sampleThesis
- bibtex sampleBib
- latex sampleThesis
+docker run --rm -it -v $(pwd):/home danteev/texlive:TL2017 latexmk -pdf thesis.tex
