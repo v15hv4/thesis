@@ -17,9 +17,43 @@ For the peptide reconstruction process, the Binary Particle Swarm Optimization (
 The optimal number of particles in PSO can vary based on the complexity of the problem. We opted for a common starting point of 50 particles, striking a balance between exploration of the search space and exploitation of promising regions. The cognitive (c1) and social (c2) coefficients were determined empirically to further balance exploration and exploitation within the algorithm. We found that c1 = 2.5 and c2 = 0.5 achieved this balance effectively. The cognitive coefficient emphasizes individual exploration based on a particle's best prior position ($p_{best}$), while the social coefficient promotes convergence towards the best position found by any particle in its neighborhood ($g_{best}$). Finally, the inertia weight (w) was also tuned empirically to a value of 0.9. This parameter controls the momentum of particles, allowing them to maintain some exploration history while gradually decreasing over time to encourage convergence towards promising solutions in later stages of the optimization process.
 
 \section{Training Methodology}
-The model was trained using the Adam optimizer \cite{kingma2014adam}, with an initial learning rate of $10^{-3}$. To prevent overfitting and improve generalization, a data augmentation strategy was employed during training. This involved adding a small Gaussian noise with a standard deviation of 0.1 to the protein atom coordinates. The forward and reverse diffusion processes took place through 1000 steps. Additionally, a learning rate decay schedule was implemented to decay the learning rate exponentially with a factor of 0.6 towards a minimum value of $10^{-6}$ if there is no improvement in the validation loss for 10 consecutive steps. The model was trained using a batch size of 2, and to balance the contributions of different loss terms within the overall loss function, a factor of $\alpha = 100$ was multiplied onto the residue type loss. Figures concerning the training progression are provided below. (TODO: figures from supplementary) \\
+The model was trained using the Adam optimizer \cite{kingma2014adam}, with an initial learning rate of $10^{-3}$. To prevent overfitting and improve generalization, a data augmentation strategy was employed during training. This involved adding a small Gaussian noise with a standard deviation of 0.1 to the protein atom coordinates. The forward and reverse diffusion processes took place through 1000 steps. Additionally, a learning rate decay schedule was implemented to decay the learning rate exponentially with a factor of 0.6 towards a minimum value of $10^{-6}$ if there is no improvement in the validation loss for 10 consecutive steps. The model was trained using a batch size of 2, and to balance the contributions of different loss terms within the overall loss function, a factor of $\alpha = 100$ was multiplied onto the residue type loss. Figures concerning the training progression are provided below. \\
 
-To gain deeper insights into the training process, we tracked not only the total training and validation losses but also their individual components: position loss and feature loss. Position loss quantifies the error between the predicted continuous Cartesian coordinates $(x, y, z)$ and the ground truth. Feature loss, on the other hand, measures the discrepancy between the predicted categorical feature distribution and the actual distribution. Figures TODO and TODO illustrate the behavior of these loss components throughout training. \\
+To gain deeper insights into the training process, we tracked not only the total training and validation losses but also their individual components: position loss and feature loss. Position loss quantifies the error between the predicted continuous Cartesian coordinates $(x, y, z)$ and the ground truth. Feature loss, on the other hand, measures the discrepancy between the predicted categorical feature distribution and the actual distribution. Figures \ref{fig:train_metrics} and \ref{fig:val_metrics} illustrate the behavior of these loss components throughout training. \\
+
+\begin{figure}
+  \center
+
+  \textbf{\Large A}
+  \psfig{figure=figures/plots/train_loss.pdf,width=0.78\linewidth} \\
+
+  \textbf{\Large B}
+  \psfig{figure=figures/plots/train_loss_pos.pdf,width=0.78\linewidth} \\
+
+  \textbf{\Large C}
+  \psfig{figure=figures/plots/train_loss_v.pdf,width=0.78\linewidth}
+
+  \caption{Evolution of individual training loss components throughout the training process. To improve visualization and reduce noise, a Time-Weighted Exponential Moving Average (EMA) algorithm has been applied to smooth the curves.}
+
+  \label{fig:train_metrics}
+\end{figure}
+
+\begin{figure}
+  \center
+
+  \textbf{\Large A}
+  \psfig{figure=figures/plots/val_loss.pdf,width=0.78\linewidth} \\
+
+  \textbf{\Large B}
+  \psfig{figure=figures/plots/val_loss_pos.pdf,width=0.78\linewidth} \\
+
+  \textbf{\Large C}
+  \psfig{figure=figures/plots/val_loss_v.pdf,width=0.78\linewidth}
+
+  \caption{Evolution of individual validation loss components throughout the training process.}
+
+  \label{fig:val_metrics}
+\end{figure}
 
 The deep diffusion model was trained on the Ada HPC Cluster with 4x NVIDIA GeForce RTX 2080 Ti GPUs using the Distributed Data Parallel (DDP) Strategy. All inference and reconstruction experiments were carried out on multiple nodes, each with 40x Intel Xeon E5-2640 v4 CPUs, 80 GB of RAM, and 1x NVIDIA GeForce RTX 2080 Ti GPU.
 
@@ -30,4 +64,67 @@ For protein-peptide docking simulations, we utilized FRODOCK. However, prior to 
 
 \section{Application to PfEMP1 Protein Targets}
 \textit{Plasmodium falciparum}, the causative agent of the most severe form of malaria, expresses a diverse family of PfEMP1 proteins. These highly polymorphic surface antigens, comprising approximately 60 known variants, play a critical role in severe malaria pathogenesis by mediating the cytoadherence of infected erythrocytes to endothelial receptors. This adherence leads to sequestration and contributes to tissue damage \cite{jensen2020cerebral}. PfEMP1 is a pivotal virulence factor secreted by the malaria parasite. It binds to the erythrocyte membrane, triggering the binding of red blood cells (RBCs) to blood vessels \cite{pasternak2009pfemp1}. By obstructing tiny blood arteries, they exacerbate malaria infections and increase the risk of cerebral malaria, placental malaria, and severe anemia \cite{jensen2020cerebral}. The parasite can avoid the host immune system because of this antigenic diversity of PfEMP1 family genes, since new infection can express different PfEMP1 variants that are not recognized by preexisting immune responses \cite{scherf2008antigenic}.
-We leveraged single-cell RNA-seq data to identify the five most highly expressed PfEMP1 genes. Using CAVITY \cite{Yuan2013}, we predicted strong and medium druggable binding sites within the proteins encoded by these genes (Figure TODO). Subsequently, HYDRA was used to design potential peptide molecules specifically targeted to these binding sites (Figure TODO). We also checked the binding affinities of generated peptides of one with other proteins (heatmap TODO).  During analysis of the protein structures, we focused on extracellular and intracellular domains for peptide generation, leveraging cavities as potential binding pockets. Finally, we evaluated the binding affinities between the designed peptides and their target proteins on these PfEMP1 variants.
+We leveraged single-cell RNA-seq data to identify the five most highly expressed PfEMP1 genes. Using CAVITY \cite{Yuan2013}, we predicted strong and medium druggable binding sites within the proteins encoded by these genes (Figures \ref{fig:application_1}, \ref{fig:application_2}, \ref{fig:application_3}). Subsequently, HYDRA was used to design potential peptide molecules specifically targeted to these binding sites (Figure \ref{fig:multi_binding_a}). We also checked the binding affinities of generated peptides of one with other proteins (Figure \ref{fig:multi_binding_b}).  During analysis of the protein structures, we focused on extracellular and intracellular domains for peptide generation, leveraging cavities as potential binding pockets. Finally, we evaluated the binding affinities between the designed peptides and their target proteins on these PfEMP1 variants.
+
+\begin{figure}
+  \center
+
+  \psfig{figure=figures/application.pdf,width=\linewidth} \\
+
+  \caption{A consolidated flowchart illustrating the binding site detection and \textit{de novo} peptide binder generation pipeline for PfEMP1 targets.}
+
+  \label{fig:application_1}
+\end{figure}
+
+\begin{figure}
+  \center
+
+  \psfig{figure=figures/highexpressed.eps,width=\linewidth}
+
+  \caption{Gene expression profile of the PfEMP1 family. The heatmap suggests that the proteins PF3D7\_1200600, PF3D7\_1150400, and PF3D7\_0712400 are highly expressed.}
+
+  \label{fig:application_2}
+\end{figure}
+
+\begin{figure}
+  \center
+
+  \textbf{\Large A}
+  \psfig{figure=figures/0712400.pdf,width=0.4\linewidth}
+
+  \textbf{\Large B}
+  \psfig{figure=figures/1200600.pdf,width=0.4\linewidth}
+
+  \textbf{\Large C}
+  \psfig{figure=figures/1150400.pdf,width=0.4\linewidth}
+
+  \caption{Using CAVITY to identify strong and medium binding sites. Visualization of identified binding sites of (\textit{A}) PF3D7\_0712400, (\textit{B}) PF3D7\_1200600, and (\textit{C}) PF3D7\_1150400. The red and blue regions highlight the binding sites.}
+
+  \label{fig:application_3}
+\end{figure}
+
+\begin{figure}
+  \center
+
+  \textbf{\Large A}
+  \psfig{figure=figures/18pdb.pdf,width=0.7\linewidth} \\
+  \textbf{\Large B}
+  \psfig{figure=figures/medium7.pdf,width=0.7\linewidth} \\
+  \textbf{\Large C}
+  \psfig{figure=figures/strong23.pdf,width=0.7\linewidth}
+
+  \caption{3D structural representations of the binding sites on PF3D7\_0712400 interacting with generated peptides (\textbf{A}) RLKAVIP, (\textbf{B}) FSVYGIVH, and (\textbf{C}) IVVGPAYG.}
+
+  \label{fig:multi_binding_a}
+\end{figure}
+
+
+\begin{figure}
+  \center
+
+  \psfig{figure=figures/plots/pfemp1-heatmap.pdf,width=\linewidth}
+
+  \caption{ A heatmap visualizing the predicted binding affinities between the chosen target binding sites and peptides generated by HYDRA. The color intensity represents the predicted binding affinity, with lower values indicating stronger binding.}
+
+  \label{fig:multi_binding_b}
+\end{figure}
