@@ -30,7 +30,27 @@ To assess HYDRA's ability to generalize to unseen receptors, we focused on \text
 
 \section{Model Architecture and Specifications}
 The target-aware in-place residue generation step is implemented through a SE(3)-equivariant Graph Neural Network to model the interaction between the peptide residuals and the target protein atoms. The key/value embedding and attention scores are generated through a 2-layer Multi Layer Perceptron with LayerNorm and ReLU activation.
-The SE(3)-equivariant network contains 9 equivariant layers where $f_h$ and $f_x$ are implemented as graph attention layers for features and coordinates with 16 attention heads and 128 hidden features. We initiated our architecture and hyperparameter search using values reported in related literature \cite{guan20233d} as a starting point. Subsequently, we conducted a series of experiments with multiple configurations, systematically adjusting and refining these parameters. Through this iterative process of testing and optimization, we ultimately arrived at the current set of model parameters that yielded the best performance. Figures pertaining to the neural network architecture iteration are given below. (TODO: figures from wandb) \\
+The SE(3)-equivariant network contains 9 equivariant layers where $f_h$ and $f_x$ are implemented as graph attention layers for features and coordinates with 16 attention heads and 128 hidden features. We initiated our architecture and hyperparameter search using values reported in related literature \cite{guan20233d} as a starting point. Subsequently, we conducted a series of experiments with multiple configurations, systematically adjusting and refining these parameters \ref{tab:iteration}. Through this iterative process of testing and optimization, we ultimately arrived at the current set of model parameters that yielded the best performance. Figures pertaining to the neural network architecture iteration are given below. (TODO: figures from wandb) \\
+
+\begin{table}[ht]
+\centering
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+      \hline
+      \textbf{ID}      & \textbf{Network}   & \textbf{Hidden Layers} & \textbf{Hidden Dim.} & \textbf{Train Loss} & \textbf{Validation Loss} & \textbf{Speed}    \\
+      \hline
+      E-4-16  & EGNN      & 4             & 16          & 5.475      & 1.498           & 4.85m/ep  \\
+      E-9-128 & EGNN      & 9             & 128         & 3.233      & 2.120           & 9.90m/ep  \\
+      A-4-16  & Attention & 4             & 16          & 3.350      & 1.571           & 3.60m/ep  \\
+      A-4-64  & Attention & 4             & 64          & 2.853      & 1.401           & 3.85m/ep  \\
+      A-9-128 & Attention & 9             & 128         & 1.300      & 1.387           & 7.58m/ep  \\
+
+      \hline
+\end{tabular}
+\renewcommand{\arraystretch}{1}
+\caption{\textbf{Model Architecture Iteration.} A summary of configurations of the best performing model architectures used in experiments. All models were trained for the same number of epochs and the train loss and validation loss metrics are measured at convergence. The training speed of the model is measured in minutes per epoch.}  
+\label{tab:iteration}
+\end{table}
 
 For the peptide reconstruction process, the Binary Particle Swarm Optimization (Binary PSO) algorithm is used. This variant of the standard PSO algorithm restricts particles to binary values (0 or 1). This directly aligns with our problem of selecting a subset of edges from the complete edge space. Each edge can be represented by a binary value: 1 signifying the edge is included in the final peptide and 0 indicating exclusion. For Binary PSO, 50 particles are instantiated with cognitive (c1) and social (c2) acceleration coefficients set to 2.5 and 0.5, respectively. Additionally, the inertia weight is set to 0.9.
 The optimal number of particles in PSO can vary based on the complexity of the problem. We opted for a common starting point of 50 particles, striking a balance between exploration of the search space and exploitation of promising regions. The cognitive (c1) and social (c2) coefficients were determined empirically to further balance exploration and exploitation within the algorithm. We found that c1 = 2.5 and c2 = 0.5 achieved this balance effectively. The cognitive coefficient emphasizes individual exploration based on a particle's best prior position ($p_{best}$), while the social coefficient promotes convergence towards the best position found by any particle in its neighborhood ($g_{best}$). Finally, the inertia weight (w) was also tuned empirically to a value of 0.9. This parameter controls the momentum of particles, allowing them to maintain some exploration history while gradually decreasing over time to encourage convergence towards promising solutions in later stages of the optimization process.
@@ -78,6 +98,7 @@ The deep diffusion model was trained on the Ada HPC Cluster with 4x NVIDIA GeFor
 
 \section{Optimization of Evaluation Algorithm Parameters}
 Autodock Vina was employed to compute the binding affinity between the reconstructed peptide and the target protein. Although docking was not performed, Vina's built-in scoring function served as the metric for evaluating both the reconstruction process and the final generated peptides. To facilitate Vina docking calculations, the reconstructed peptide's size (in Angstroms) and center coordinates were pre-computed and provided as input parameters. We opted to utilize the default settings within Vina for the exhaustiveness of the global search (set to 8) and the maximum number of binding modes to be generated (limited to 9). These defaults ensure a balance between computational efficiency and exploration of the search space. \\
+TODO: talk about how vina score was also used to determine optimal neural network architecture
 
 For protein-peptide docking simulations, we utilized FRODOCK. However, prior to docking, the reconstructed peptides underwent preprocessing using the PDB2PQR tool. This preprocessing step ensured the peptides were properly prepared for docking by reconstructing missing atoms, adding hydrogens, and assigning atomic charges and radii based on the CHARMM force field. Following this preparation step, FRODOCK simulations were conducted using the Rosetta force field and the default SOAP potentials. Docking simulations can be computationally expensive, so to improve efficiency, the process was parallelized across 8 threads using OpenMP. This parallelization strategy significantly reduced the overall computational time required for the docking simulations.
 
