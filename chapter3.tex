@@ -1,9 +1,28 @@
 \section{Dataset Curation for Training and Evaluation}
 To construct training and evaluation sets, we curated peptide structures from the PepBDB database \cite{Wen2019}. PepBDB (Peptide Binding DataBase) is a curated structural database specializing in biological peptide-protein interactions \cite{Wen2019}. It provides clean data for structure-based peptide drug design, particularly for docking and scoring studies. Compiled from the Protein Data Bank (PDB), PepBDB focuses on structures of interacting peptide-protein complexes, with peptides limited to 50 amino acid residues in length. Regular monthly updates ensure the database reflects the latest data released in the PDB. \\
 
-We curated 9225 protein-peptide complexes for the training dataset, 200 complexes for the validation dataset as well as 193 complexes for the test dataset. The complete dataset comprising 9618 protein-peptide complexes contained 1082 complexes that shared receptors with a subset of 504 unique receptors. To minimize overfitting and training set bias, the test set was carefully selected to have minimal overlap with the receptor proteins present in the train set. This resulted in the test set of 193 complexes with only 7 complexes sharing receptor proteins found in the training set. This minimal overlap between the training and test set data assures that our evaluation metric values are not a product of overfitting or train set bias. Table TODO summarizes the analysis of various physicochemical properties of peptides found in the dataset. \\
+We curated 9225 protein-peptide complexes for the training dataset, 200 complexes for the validation dataset as well as 193 complexes for the test dataset. The complete dataset comprising 9618 protein-peptide complexes contained 1082 complexes that shared receptors with a subset of 504 unique receptors. To minimize overfitting and training set bias, the test set was carefully selected to have minimal overlap with the receptor proteins present in the train set. This resulted in the test set of 193 complexes with only 7 complexes sharing receptor proteins found in the training set. This minimal overlap between the training and test set data assures that our evaluation metric values are not a product of overfitting or train set bias. Table \ref{tab:pepbdb_pc_metrics} summarizes the analysis of various physicochemical properties of peptides found in the dataset. \\
+(TODO: residue count distribution figure)
 
-To ensure efficient computational processing and focus on the key interaction regions, a data preprocessing pipeline was implemented. The first step involved outlier removal based on protein size. Complexes containing exceptionally large proteins were excluded by imposing a maximum atom count threshold of 200 per protein. This filtering step mitigated potential memory limitations during subsequent deep learning model training. Next, to isolate the crucial binding pockets within the protein structures for analysis, the full protein structures were strategically sectioned. This was achieved by extracting a circumscribed spherical region with a radius of 10Å centered around the bound peptide. This approach streamlined the data and made the process more computationally efficient by focusing solely on the most relevant interaction interfaces critical for peptide binding. \\
+\begin{table}[ht]
+\centering
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+      \hline
+      & \multicolumn{1}{c|}{MW [Daltons]} & \multicolumn{1}{c|}{pI} & \multicolumn{1}{c|}{$t_{1/2}$ [hours]} & \multicolumn{1}{c|}{II} & \multicolumn{1}{c|}{AI} & \multicolumn{1}{c|}{GRAVY}\\
+      \hline
+      Mean          & 1337.39 & 7.13 & 10.12 & 48.88 & 81.63 & -0.41 \\
+      Med.          & 1191.52 & 6.18 & 1.90 & 41.59 & 78.00 & -0.46 \\
+      \hline
+\end{tabular}
+\renewcommand{\arraystretch}{1}
+\caption{Summary of different physicochemical properties of peptides in the PepBDB dataset.}
+\label{tab:pepbdb_pc_metrics}
+\end{table}
+
+To ensure efficient computational processing and focus on the key interaction regions, a data preprocessing pipeline was implemented. The first step involved outlier removal based on protein size. Complexes containing exceptionally large proteins were excluded by imposing a maximum atom count threshold of 200 per protein. This filtering step mitigated potential memory limitations during subsequent deep learning model training. Next, to isolate the crucial binding pockets within the protein structures for analysis, the full protein structures were strategically sectioned. This was achieved by extracting a circumscribed spherical region with a radius of 10Å centered around the bound peptide. 
+We determined this radius through empirical testing, aiming to minimize discrepancies in binding affinity score distributions between complexes using the full protein structure and those using only the extracted binding pocket. This approach ensured that the extracted pocket adequately represented the full protein's binding characteristics. (TODO: frodock distribuion figures)
+This approach streamlined the data and made the process more computationally efficient by focusing solely on the most relevant interaction interfaces critical for peptide binding. \\
 
 The preprocessed dataset was then partitioned into distinct sets to prevent overfitting and enable robust evaluation of the trained HYDRA model. A hold-out test set comprising 2\% (193 complexes) of the entire dataset was established. This unseen test set served as a completely novel benchmark for unbiased model performance assessment. Furthermore, a validation set of 200 complexes (approximately 2\% of the remaining data) was designated for continuous monitoring of the training process and hyperparameter optimization. Finally, the remaining 9225 complexes constituted the primary training set. \\
 

@@ -121,7 +121,6 @@ AutoDock Vina is a widely used program for molecular docking \cite{trott2010auto
 FRODOCK, or Fast Rotational DOCKing, is an approach for protein-protein docking simulations \cite{Aportela2016}. Unlike AutoDock Vina, which uses an empirical scoring function, FRODOCK employs a correlation function for protein-protein docking. This function assesses the overlap of interaction patterns (e.g., hydrophobicity, electrostatics) between protein surfaces, with higher scores indicating greater potential for favorable interactions but not directly reflecting binding affinity. This distinction highlights the importance of selecting the appropriate docking tool based on the specific type of molecular interaction under investigation \cite{Aportela2016}.  \\
 
 Utilizing two distinct scoring functions helps mitigate potential biases inherent to any single method and provides a more robust evaluation of predicted binding affinity. 
-A comparison between different aggregations of these metrics computed for relevant datasets can be found below. (TODO: attach table)
 
 \subsection{Diversity Analysis}
 We quantify the diversity of the generated peptide sets using the average pairwise Tanimoto distance \cite{bajusz2015sim, tanimoto1958elementary}. This metric assesses the similarity between peptide pairs by considering the presence or absence of specific amino acids at each sequence position. Higher average Tanimoto distances indicate a more diverse peptide set capable of exploring a wider range of potential binding interactions.
