@@ -2,7 +2,15 @@
 To construct training and evaluation sets, we curated peptide structures from the PepBDB database \cite{Wen2019}. PepBDB (Peptide Binding DataBase) is a curated structural database specializing in biological peptide-protein interactions \cite{Wen2019}. It provides clean data for structure-based peptide drug design, particularly for docking and scoring studies. Compiled from the Protein Data Bank (PDB), PepBDB focuses on structures of interacting peptide-protein complexes, with peptides limited to 50 amino acid residues in length. Regular monthly updates ensure the database reflects the latest data released in the PDB. \\
 
 We curated 9225 protein-peptide complexes for the training dataset, 200 complexes for the validation dataset as well as 193 complexes for the test dataset. The complete dataset comprising 9618 protein-peptide complexes contained 1082 complexes that shared receptors with a subset of 504 unique receptors. To minimize overfitting and training set bias, the test set was carefully selected to have minimal overlap with the receptor proteins present in the train set. This resulted in the test set of 193 complexes with only 7 complexes sharing receptor proteins found in the training set. This minimal overlap between the training and test set data assures that our evaluation metric values are not a product of overfitting or train set bias. Table \ref{tab:pepbdb_pc_metrics} summarizes the analysis of various physicochemical properties of peptides found in the dataset. \\
-(TODO: residue count distribution figure)
+\begin{figure}
+  \center
+
+  \psfig{figure=figures/plots/pepbdb_residue_count.pdf,width=0.78\linewidth} \\
+
+  \caption{A histogram depicting the number of atoms present in each protein (analogous to protein size) in the PepBDB dataset.}
+
+  \label{fig:residue_count}
+\end{figure}
 
 \begin{table}[ht]
 \centering
@@ -20,9 +28,22 @@ We curated 9225 protein-peptide complexes for the training dataset, 200 complexe
 \label{tab:pepbdb_pc_metrics}
 \end{table}
 
-To ensure efficient computational processing and focus on the key interaction regions, a data preprocessing pipeline was implemented. The first step involved outlier removal based on protein size. Complexes containing exceptionally large proteins were excluded by imposing a maximum atom count threshold of 200 per protein. This filtering step mitigated potential memory limitations during subsequent deep learning model training. Next, to isolate the crucial binding pockets within the protein structures for analysis, the full protein structures were strategically sectioned. This was achieved by extracting a circumscribed spherical region with a radius of 10Å centered around the bound peptide. 
-We determined this radius through empirical testing, aiming to minimize discrepancies in binding affinity score distributions between complexes using the full protein structure and those using only the extracted binding pocket. This approach ensured that the extracted pocket adequately represented the full protein's binding characteristics. (TODO: frodock distribuion figures)
-This approach streamlined the data and made the process more computationally efficient by focusing solely on the most relevant interaction interfaces critical for peptide binding. \\
+To ensure efficient computational processing and focus on the key interaction regions, a data preprocessing pipeline was implemented. The first step involved outlier removal based on protein size (Figure \ref{fig:residue_count}). Complexes containing exceptionally large proteins were excluded by imposing a maximum atom count threshold of 200 per protein. This filtering step mitigated potential memory limitations during subsequent deep learning model training. Next, to isolate the crucial binding pockets within the protein structures for analysis, the full protein structures were strategically sectioned. This was achieved by extracting a circumscribed spherical region with a radius of 10Å centered around the bound peptide. 
+We determined this radius through empirical testing, aiming to minimize discrepancies in binding affinity score distributions between complexes using the full protein structure and those using only the extracted binding pocket. This approach ensured that the extracted pocket adequately represented the full protein's binding characteristics (Figure \ref{fig:pocket_protein_min}). This process streamlined the data and made the process more computationally efficient by focusing solely on the most relevant interaction interfaces critical for peptide binding. \\
+
+\begin{figure}
+  \center
+
+  \textbf{\Large A}
+  \psfig{figure=figures/plots/pepbdb_frodock_receptors.png,width=0.95\linewidth} \\
+
+  \textbf{\Large B}
+  \psfig{figure=figures/plots/pepbdb_frodock_pockets.png,width=0.95\linewidth} 
+
+  \caption{Distribution of FRODOCK scores in the database after performing protein-protein docking on (A) the whole receptor protein and the peptide and (B) the binding pocket of the receptor and the peptide. The threshold for binding pocket extraction was empirically determined to minimize the disparity in these distributions.}
+
+  \label{fig:pocket_protein_min}
+\end{figure}
 
 The preprocessed dataset was then partitioned into distinct sets to prevent overfitting and enable robust evaluation of the trained HYDRA model. A hold-out test set comprising 2\% (193 complexes) of the entire dataset was established. This unseen test set served as a completely novel benchmark for unbiased model performance assessment. Furthermore, a validation set of 200 complexes (approximately 2\% of the remaining data) was designated for continuous monitoring of the training process and hyperparameter optimization. Finally, the remaining 9225 complexes constituted the primary training set. \\
 
@@ -30,7 +51,7 @@ To assess HYDRA's ability to generalize to unseen receptors, we focused on \text
 
 \section{Model Architecture and Specifications}
 The target-aware in-place residue generation step is implemented through a SE(3)-equivariant Graph Neural Network to model the interaction between the peptide residuals and the target protein atoms. The key/value embedding and attention scores are generated through a 2-layer Multi Layer Perceptron with LayerNorm and ReLU activation.
-The SE(3)-equivariant network contains 9 equivariant layers where $f_h$ and $f_x$ are implemented as graph attention layers for features and coordinates with 16 attention heads and 128 hidden features. We initiated our architecture and hyperparameter search using values reported in related literature \cite{guan20233d} as a starting point. Subsequently, we conducted a series of experiments with multiple configurations, systematically adjusting and refining these parameters \ref{tab:iteration}. Through this iterative process of testing and optimization, we ultimately arrived at the current set of model parameters that yielded the best performance. Figures pertaining to the neural network architecture iteration are given below. (TODO: figures from wandb) \\
+The SE(3)-equivariant network contains 9 equivariant layers where $f_h$ and $f_x$ are implemented as graph attention layers for features and coordinates with 16 attention heads and 128 hidden features. We initiated our architecture and hyperparameter search using values reported in related literature \cite{guan20233d} as a starting point. Subsequently, we conducted a series of experiments with multiple configurations, systematically adjusting and refining these parameters \ref{tab:iteration}. Through this iterative process of testing and optimization, we ultimately arrived at the current set of model parameters that yielded the best performance. Figures pertaining to the neural network architecture iteration are depicted in Figures \ref{fig:cmp_train_metrics} and \ref{fig:cmp_val_metrics}. \\
 
 \begin{table}[ht]
 \centering
@@ -51,6 +72,40 @@ The SE(3)-equivariant network contains 9 equivariant layers where $f_h$ and $f_x
 \caption{\textbf{Model Architecture Iteration.} A summary of configurations of the best performing model architectures used in experiments. All models were trained for the same number of epochs and the train loss and validation loss metrics are measured at convergence. The training speed of the model is measured in minutes per epoch.}  
 \label{tab:iteration}
 \end{table}
+
+\begin{figure}
+  \center
+
+  \textbf{\Large A}
+  \psfig{figure=figures/plots/cmp_train_loss.png,width=0.78\linewidth} \\
+
+  \textbf{\Large B}
+  \psfig{figure=figures/plots/cmp_train_loss_pos.png,width=0.78\linewidth} \\
+
+  \textbf{\Large C}
+  \psfig{figure=figures/plots/cmp_train_loss_v.png,width=0.78\linewidth}
+
+  \caption{A comparison of the evolution of individual training loss components for different models throughout the training process. To improve visualization and reduce noise, a Time-Weighted Exponential Moving Average (EMA) algorithm has been applied to smooth the curves.}
+
+  \label{fig:cmp_train_metrics}
+\end{figure}
+
+\begin{figure}
+  \center
+
+  \textbf{\Large A}
+  \psfig{figure=figures/plots/cmp_val_loss.png,width=0.78\linewidth} \\
+
+  \textbf{\Large B}
+  \psfig{figure=figures/plots/cmp_val_loss_pos.png,width=0.78\linewidth} \\
+
+  \textbf{\Large C}
+  \psfig{figure=figures/plots/cmp_val_loss_v.png,width=0.78\linewidth}
+
+  \caption{A comparison of the evolution of individual validation loss components for different models throughout the training process.}
+
+  \label{fig:cmp_val_metrics}
+\end{figure}
 
 For the peptide reconstruction process, the Binary Particle Swarm Optimization (Binary PSO) algorithm is used. This variant of the standard PSO algorithm restricts particles to binary values (0 or 1). This directly aligns with our problem of selecting a subset of edges from the complete edge space. Each edge can be represented by a binary value: 1 signifying the edge is included in the final peptide and 0 indicating exclusion. For Binary PSO, 50 particles are instantiated with cognitive (c1) and social (c2) acceleration coefficients set to 2.5 and 0.5, respectively. Additionally, the inertia weight is set to 0.9.
 The optimal number of particles in PSO can vary based on the complexity of the problem. We opted for a common starting point of 50 particles, striking a balance between exploration of the search space and exploitation of promising regions. The cognitive (c1) and social (c2) coefficients were determined empirically to further balance exploration and exploitation within the algorithm. We found that c1 = 2.5 and c2 = 0.5 achieved this balance effectively. The cognitive coefficient emphasizes individual exploration based on a particle's best prior position ($p_{best}$), while the social coefficient promotes convergence towards the best position found by any particle in its neighborhood ($g_{best}$). Finally, the inertia weight (w) was also tuned empirically to a value of 0.9. This parameter controls the momentum of particles, allowing them to maintain some exploration history while gradually decreasing over time to encourage convergence towards promising solutions in later stages of the optimization process.
@@ -97,8 +152,69 @@ To gain deeper insights into the training process, we tracked not only the total
 The deep diffusion model was trained on the Ada HPC Cluster with 4x NVIDIA GeForce RTX 2080 Ti GPUs using the Distributed Data Parallel (DDP) Strategy. All inference and reconstruction experiments were carried out on multiple nodes, each with 40x Intel Xeon E5-2640 v4 CPUs, 80 GB of RAM, and 1x NVIDIA GeForce RTX 2080 Ti GPU.
 
 \section{Optimization of Evaluation Algorithm Parameters}
-Autodock Vina was employed to compute the binding affinity between the reconstructed peptide and the target protein. Although docking was not performed, Vina's built-in scoring function served as the metric for evaluating both the reconstruction process and the final generated peptides. To facilitate Vina docking calculations, the reconstructed peptide's size (in Angstroms) and center coordinates were pre-computed and provided as input parameters. We opted to utilize the default settings within Vina for the exhaustiveness of the global search (set to 8) and the maximum number of binding modes to be generated (limited to 9). These defaults ensure a balance between computational efficiency and exploration of the search space. \\
-TODO: talk about how vina score was also used to determine optimal neural network architecture
+Autodock Vina was employed to compute the binding affinity between the reconstructed peptide and the target protein. Although docking was not performed, Vina's built-in scoring function served as the metric for evaluating both the reconstruction process and the final generated peptides. To facilitate Vina docking calculations, the reconstructed peptide's size (in Angstroms) and center coordinates were pre-computed and provided as input parameters. We opted to utilize the default settings within Vina for the exhaustiveness of the global search (set to 8) and the maximum number of binding modes to be generated (limited to 9). These defaults ensure a balance between computational efficiency and exploration of the search space. The distribution of Vina scores of peptides in the PepBDB database is depicted in Figure \ref{fig:vina_pepbdb}. \\
+
+\begin{figure}
+  \center
+
+  \psfig{figure=figures/plots/vina_pepbdb.png,width=0.8\linewidth}
+
+  \caption{Percentage histogram of Vina scores of peptides in the PepBDB database.}
+
+  \label{fig:vina_pepbdb}
+\end{figure}
+
+The optimal diffusion model architecture was determined through a two-pronged approach. While the diffusion model's training and validation losses were key factors, we also considered the performance of the entire reconstruction pipeline. Specifically, we analyzed the Vina score distribution of the final generated peptides (Figures \ref{fig:vina_E-4-16}, \ref{fig:vina_E-9-128}, \ref{fig:vina_A-4-16}, \ref{fig:vina_A-4-64}, \ref{fig:vina_A-9-128}). This evaluation ensured that the selected diffusion model architecture not only performed well in isolation but also contributed effectively to the overall peptide design process. \\
+
+\begin{figure}
+  \center
+
+  \psfig{figure=figures/plots/vina_E-4-16.png,width=\linewidth}
+
+  \caption{Percentage histograms of Vina scores of the best peptide (top1) and the average peptide (mean) generated by model E-4-16.}
+
+  \label{fig:vina_E-4-16}
+\end{figure}
+
+\begin{figure}
+  \center
+
+  \psfig{figure=figures/plots/vina_E-9-128.png,width=\linewidth}
+
+  \caption{Percentage histograms of Vina scores of the best peptide (top1) and the average peptide (mean) generated by model E-9-128.}
+
+  \label{fig:vina_E-9-128}
+\end{figure}
+
+\begin{figure}
+  \center
+
+  \psfig{figure=figures/plots/vina_A-4-16.png,width=\linewidth}
+
+  \caption{Percentage histograms of Vina scores of the best peptide (top1) and the average peptide (mean) generated by model A-4-16.}
+
+  \label{fig:vina_A-4-16}
+\end{figure}
+
+\begin{figure}
+  \center
+
+  \psfig{figure=figures/plots/vina_A-4-64.png,width=\linewidth}
+
+  \caption{Percentage histograms of Vina scores of the best peptide (top1) and the average peptide (mean) generated by model A-4-64.}
+
+  \label{fig:vina_A-4-64}
+\end{figure}
+
+\begin{figure}
+  \center
+
+  \psfig{figure=figures/plots/vina_A-9-128.png,width=\linewidth}
+
+  \caption{Percentage histograms of Vina scores of the best peptide (top1) and the average peptide (mean) generated by model A-9-128.}
+
+  \label{fig:vina_A-9-128}
+\end{figure}
 
 For protein-peptide docking simulations, we utilized FRODOCK. However, prior to docking, the reconstructed peptides underwent preprocessing using the PDB2PQR tool. This preprocessing step ensured the peptides were properly prepared for docking by reconstructing missing atoms, adding hydrogens, and assigning atomic charges and radii based on the CHARMM force field. Following this preparation step, FRODOCK simulations were conducted using the Rosetta force field and the default SOAP potentials. Docking simulations can be computationally expensive, so to improve efficiency, the process was parallelized across 8 threads using OpenMP. This parallelization strategy significantly reduced the overall computational time required for the docking simulations.
 
