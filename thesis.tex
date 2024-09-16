@@ -6,6 +6,7 @@
 \documentclass[11pt]{book}
 \usepackage{iiit_thesis}
 \usepackage{times}
+
 \usepackage{epsfig}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -15,6 +16,13 @@
 \usepackage{algorithm2e}
 \usepackage{bbm}
 \usepackage{makecell}
+\usepackage[
+  backend=bibtex,
+  natbib=true,
+  style=numeric,
+  sorting=none
+]{biblatex}
+\bibliography{refs} 
 \graphicspath{{images/}{./}} % To include images in other directories
 
 \long\def\symbolfootnote[#1]#2{\begingroup%
@@ -104,8 +112,7 @@
 
 %--------------------------------------------------------
 
-\bibliographystyle{latex8}
 %\bibliography{References,Introduction/References} % To include one or more reference.bib files
-\bibliography{refs} 
+\printbibliography
 
 \end{document}
